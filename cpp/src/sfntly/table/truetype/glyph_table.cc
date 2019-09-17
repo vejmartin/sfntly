@@ -209,7 +209,7 @@ CALLER_ATTACH GlyphTable::Glyph*
                                 ReadableFontData* data,
                                 int32_t offset,
                                 int32_t length) {
-  UNREFERENCED_PARAMETER(table);
+  SFNTLY_UNUSED(table);
   int32_t type = GlyphType(data, offset, length);
   GlyphPtr glyph;
 
@@ -304,7 +304,7 @@ CALLER_ATTACH GlyphTable::Glyph::Builder*
         ReadableFontData* data,
         int32_t offset,
         int32_t length) {
-  UNREFERENCED_PARAMETER(table_builder);
+  SFNTLY_UNUSED(table_builder);
   int32_t type = Glyph::GlyphType(data, offset, length);
   GlyphBuilderPtr builder;
   ReadableFontDataPtr sliced_data;

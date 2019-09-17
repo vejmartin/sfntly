@@ -167,7 +167,7 @@ FontDataTable::Builder::~Builder() {
 
 void FontDataTable::Builder::NotifyPostTableBuild(FontDataTable* table) {
   // Default: NOP.
-  UNREFERENCED_PARAMETER(table);
+  SFNTLY_UNUSED(table);
 }
 
 void FontDataTable::Builder::InternalSetData(WritableFontData* data,

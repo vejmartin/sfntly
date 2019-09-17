@@ -243,7 +243,7 @@ std::vector<int32_t>* LocaTable::Builder::GetLocaList() {
 
 void LocaTable::Builder::ClearLoca(bool nullify) {
   // Note: in C++ port, nullify is not used at all.
-  UNREFERENCED_PARAMETER(nullify);
+  SFNTLY_UNUSED(nullify);
   loca_.clear();
   set_model_changed(false);
 }

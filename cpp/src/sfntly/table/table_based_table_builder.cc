@@ -24,7 +24,7 @@ namespace sfntly {
 TableBasedTableBuilder::~TableBasedTableBuilder() {}
 
 int32_t TableBasedTableBuilder::SubSerialize(WritableFontData* data) {
-  UNREFERENCED_PARAMETER(data);
+  SFNTLY_UNUSED(data);
   return 0;
 }
 

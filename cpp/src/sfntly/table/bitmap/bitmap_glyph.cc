@@ -78,7 +78,7 @@ BitmapGlyph::Builder::Builder(ReadableFontData* data, int32_t format)
 
 CALLER_ATTACH
 FontDataTable* BitmapGlyph::Builder::SubBuildTable(ReadableFontData* data) {
-  UNREFERENCED_PARAMETER(data);
+  SFNTLY_UNUSED(data);
   return NULL;
 }
 

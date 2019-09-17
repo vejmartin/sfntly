@@ -74,8 +74,6 @@ inline To down_cast(From* f) {                   // so we only accept pointers
   return static_cast<To>(f);
 }
 
-#if !defined(WIN32)
-  #define UNREFERENCED_PARAMETER(p) do { (void)p; } while (0)
-#endif
+#define SFNTLY_UNUSED(p) do { (void)p; } while (0)
 
 #endif  // SFNTLY_CPP_SRC_SFNTLY_PORT_TYPE_H_

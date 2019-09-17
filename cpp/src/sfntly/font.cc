@@ -367,7 +367,7 @@ Table::Builder* Font::Builder::GetTableBuilder(Header* header,
 void Font::Builder::BuildTablesFromBuilders(Font* font,
                                             TableBuilderMap* builder_map,
                                             TableMap* table_map) {
-  UNREFERENCED_PARAMETER(font);
+  SFNTLY_UNUSED(font);
   InterRelateBuilders(builder_map);
 
   // Now build all the tables.

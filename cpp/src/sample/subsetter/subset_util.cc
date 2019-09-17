@@ -41,7 +41,7 @@ SubsetUtil::~SubsetUtil() {
 
 void SubsetUtil::Subset(const char *input_file_path,
                         const char *output_file_path) {
-  UNREFERENCED_PARAMETER(output_file_path);
+  SFNTLY_UNUSED(output_file_path);
   ByteVector input_buffer;
   FILE* input_file = fopen(input_file_path, "rb");
   if (input_file == NULL) {
@@ -53,7 +53,7 @@ void SubsetUtil::Subset(const char *input_file_path,
   fseek(input_file, 0, SEEK_SET);
   input_buffer.resize(file_size);
   size_t bytes_read = fread(&(input_buffer[0]), 1, file_size, input_file);
-  UNREFERENCED_PARAMETER(bytes_read);
+  SFNTLY_UNUSED(bytes_read);
   fclose(input_file);
 
   FontFactoryPtr factory;

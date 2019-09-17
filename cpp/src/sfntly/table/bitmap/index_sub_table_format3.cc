@@ -50,8 +50,8 @@ int32_t IndexSubTableFormat3::GetDataLength(ReadableFontData* data,
                                             int32_t offset,
                                             int32_t first,
                                             int32_t last) {
-  UNREFERENCED_PARAMETER(data);
-  UNREFERENCED_PARAMETER(offset);
+  SFNTLY_UNUSED(data);
+  SFNTLY_UNUSED(offset);
   return (last - first + 1 + 1) * DataSize::kUSHORT;
 }
 
@@ -256,8 +256,8 @@ int32_t IndexSubTableFormat3::Builder::DataLength(
     int32_t index_sub_table_offset,
     int32_t first_glyph_index,
     int32_t last_glyph_index) {
-  UNREFERENCED_PARAMETER(data);
-  UNREFERENCED_PARAMETER(index_sub_table_offset);
+  SFNTLY_UNUSED(data);
+  SFNTLY_UNUSED(index_sub_table_offset);
   return EblcTable::Offset::kIndexSubHeaderLength +
          (last_glyph_index - first_glyph_index + 1 + 1) * DataSize::kUSHORT;
 }

@@ -172,9 +172,9 @@ void FontFactory::LoadCollectionForBuilding(InputStream* is,
 void FontFactory::LoadCollectionForBuilding(WritableFontData* wfd,
                                             FontBuilderArray* builders) {
   int32_t ttc_tag = wfd->ReadULongAsInt(Offset::kTTCTag);
-  UNREFERENCED_PARAMETER(ttc_tag);
+  SFNTLY_UNUSED(ttc_tag);
   int32_t version = wfd->ReadFixed(Offset::kVersion);
-  UNREFERENCED_PARAMETER(version);
+  SFNTLY_UNUSED(version);
   int32_t num_fonts = wfd->ReadULongAsInt(Offset::kNumFonts);
   if (num_fonts < 0)
     return;

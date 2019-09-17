@@ -42,8 +42,8 @@ void Subsetter::SetGlyphs(std::vector<int32_t>* glyphs) {
 }
 
 void Subsetter::SetCMaps(CMapIdList* cmap_ids, int32_t number) {
-  UNREFERENCED_PARAMETER(cmap_ids);
-  UNREFERENCED_PARAMETER(number);
+  SFNTLY_UNUSED(cmap_ids);
+  SFNTLY_UNUSED(number);
   // TODO(arthurhsu): IMPLEMENT
 }
 

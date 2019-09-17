@@ -47,7 +47,7 @@ bool AcceptSet::operator()(int32_t character) const {
 
 // AcceptAll predicate
 bool AcceptAll::operator()(int32_t character) const {
-  UNREFERENCED_PARAMETER(character);
+  SFNTLY_UNUSED(character);
   return true;
 }
 }

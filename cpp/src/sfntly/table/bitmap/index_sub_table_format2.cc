@@ -232,10 +232,10 @@ int32_t IndexSubTableFormat2::Builder::DataLength(
     int32_t index_sub_table_offset,
     int32_t first_glyph_index,
     int32_t last_glyph_index) {
-  UNREFERENCED_PARAMETER(data);
-  UNREFERENCED_PARAMETER(index_sub_table_offset);
-  UNREFERENCED_PARAMETER(first_glyph_index);
-  UNREFERENCED_PARAMETER(last_glyph_index);
+  SFNTLY_UNUSED(data);
+  SFNTLY_UNUSED(index_sub_table_offset);
+  SFNTLY_UNUSED(first_glyph_index);
+  SFNTLY_UNUSED(last_glyph_index);
   return EblcTable::Offset::kIndexSubTable2Length;
 }
 

@@ -335,8 +335,8 @@ int32_t IndexSubTableFormat4::Builder::DataLength(
     int32_t last_glyph_index) {
   int32_t num_glyphs = IndexSubTableFormat4::NumGlyphs(data,
                                                        index_sub_table_offset);
-  UNREFERENCED_PARAMETER(first_glyph_index);
-  UNREFERENCED_PARAMETER(last_glyph_index);
+  SFNTLY_UNUSED(first_glyph_index);
+  SFNTLY_UNUSED(last_glyph_index);
   return EblcTable::Offset::kIndexSubTable4_glyphArray +
          num_glyphs * EblcTable::Offset::kIndexSubTable4_codeOffsetPair_offset;
 }

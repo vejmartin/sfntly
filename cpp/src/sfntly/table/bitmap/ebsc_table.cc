@@ -100,7 +100,7 @@ bool EbscTable::Builder::SubReadyToSerialize() {
 }
 
 int32_t EbscTable::Builder::SubSerialize(WritableFontData* new_data) {
-  UNREFERENCED_PARAMETER(new_data);
+  SFNTLY_UNUSED(new_data);
   return 0;
 }
 

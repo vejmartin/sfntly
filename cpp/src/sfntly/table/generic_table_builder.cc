@@ -23,7 +23,7 @@ GenericTableBuilder::~GenericTableBuilder() {}
 CALLER_ATTACH
 FontDataTable* GenericTableBuilder::SubBuildTable(ReadableFontData* data) {
   // Note: In C++ port, we use GenericTable, the ref-counted version of Table
-  UNREFERENCED_PARAMETER(data);
+  SFNTLY_UNUSED(data);
   Ptr<GenericTable> table = new GenericTable(header(), InternalReadData());
   return table.Detach();
 }

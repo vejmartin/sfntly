@@ -188,7 +188,7 @@ IndexSubTable::Builder::CreateBuilder(ReadableFontData* data,
 
 CALLER_ATTACH
 FontDataTable* IndexSubTable::Builder::SubBuildTable(ReadableFontData* data) {
-  UNREFERENCED_PARAMETER(data);
+  SFNTLY_UNUSED(data);
   return NULL;
 }
 
@@ -205,7 +205,7 @@ bool IndexSubTable::Builder::SubReadyToSerialize() {
 }
 
 int32_t IndexSubTable::Builder::SubSerialize(WritableFontData* new_data) {
-  UNREFERENCED_PARAMETER(new_data);
+  SFNTLY_UNUSED(new_data);
   return 0;
 }
 

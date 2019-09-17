@@ -54,7 +54,7 @@ void FileInputStream::Close() {
 
 void FileInputStream::Mark(int32_t readlimit) {
   // NOP
-  UNREFERENCED_PARAMETER(readlimit);
+  SFNTLY_UNUSED(readlimit);
 }
 
 bool FileInputStream::MarkSupported() {

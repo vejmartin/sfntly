@@ -50,7 +50,7 @@ void MemoryInputStream::Close() {
 
 void MemoryInputStream::Mark(int32_t readlimit) {
   // NOP
-  UNREFERENCED_PARAMETER(readlimit);
+  SFNTLY_UNUSED(readlimit);
 }
 
 bool MemoryInputStream::MarkSupported() {
