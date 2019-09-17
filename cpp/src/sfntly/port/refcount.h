@@ -76,7 +76,7 @@
   #include <typeinfo>
 #endif
 
-#include "sfntly/port/atomic.h"
+#include <atomic>
 #include "sfntly/port/type.h"
 
 // Special tag for functions that requires caller to attach instead of using
@@ -122,15 +122,15 @@ class RefCounted : virtual public RefCount {
  public:
   RefCounted() : ref_count_(0) {
 #if defined (ENABLE_OBJECT_COUNTER)
-    object_id_ = AtomicIncrement(&next_id_);
-    AtomicIncrement(&object_counter_);
+    object_id_ = ++next_id_;
+    ++object_counter_;
     DEBUG_OUTPUT("C ");
 #endif
   }
   RefCounted(const RefCounted<TDerived>&) : ref_count_(0) {}
   virtual ~RefCounted() {
 #if defined (ENABLE_OBJECT_COUNTER)
-    AtomicDecrement(&object_counter_);
+    --object_counter_;
     DEBUG_OUTPUT("D ");
 #endif
   }
@@ -142,13 +142,13 @@ class RefCounted : virtual public RefCount {
 
  private:
   virtual size_t AddRef() const {
-    size_t new_count = AtomicIncrement(&ref_count_);
+    size_t new_count = ++ref_count_;
     DEBUG_OUTPUT("A ");
     return new_count;
   }
 
   virtual size_t Release() const {
-    size_t new_ref_count = AtomicDecrement(&ref_count_);
+    size_t new_ref_count = --ref_count_;
     DEBUG_OUTPUT("R ");
     if (new_ref_count == 0) {
       // A C-style is used to cast away const-ness and to derived.
@@ -158,18 +158,18 @@ class RefCounted : virtual public RefCount {
     return new_ref_count;
   }
 
-  mutable size_t ref_count_;  // reference count of current object
+  mutable std::atomic_size_t ref_count_;  // reference count of current object
   friend bool ::TestSmartPointer();
 #if defined (ENABLE_OBJECT_COUNTER)
-  static size_t object_counter_;
-  static size_t next_id_;
-  mutable size_t object_id_;
+  static std::atomic_size_t object_counter_;
+  static std::atomic_size_t next_id_;
+  mutable std::atomic_size_t object_id_;
 #endif
 };
 
 #if defined (ENABLE_OBJECT_COUNTER)
-template <typename TDerived> size_t RefCounted<TDerived>::object_counter_ = 0;
-template <typename TDerived> size_t RefCounted<TDerived>::next_id_ = 0;
+template <typename TDerived> std::atomic_size_t RefCounted<TDerived>::object_counter_{0};
+template <typename TDerived> std::atomic_size_t RefCounted<TDerived>::next_id_{0};
 #endif
 
 // semi-smart pointer for RefCount derived objects, similar to CComPtr

@@ -39,8 +39,6 @@
 
 namespace sfntly {
 
-#if GTEST_HAS_PARAM_TEST
-
 using ::testing::TestWithParam;
 using ::testing::Values;
 
@@ -119,13 +117,7 @@ TEST_P(CMapBasicTests, BasicTest) {
   delete cmap_table;
 }
 
-INSTANTIATE_TEST_CASE_P(CMapBasicTests,
+INSTANTIATE_TEST_SUITE_P(CMapBasicTests,
                         CMapBasicTests,
                         ::testing::ValuesIn(cmap_test_data::kAllTests));
-
-#else
-
-TEST(DummyTest, ValueParameterizedTestsAreNotSupportedOnThisPlatform) {}
-
-#endif  // GTEST_HAS_PARAM
 }

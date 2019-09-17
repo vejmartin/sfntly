@@ -62,9 +62,20 @@ bool TestSmartPointer() {
     p2 = NULL;
     EXPECT_EQ(size_t(1), RefCounted<Foo>::object_counter_);
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#if __has_warning("-Wself-assign-overloaded")
+#pragma clang diagnostic ignored "-Wself-assign-overloaded"
+#endif
+#endif
+
     p1 = p1;
     EXPECT_EQ(size_t(1), p1->ref_count_);
     EXPECT_EQ(size_t(1), RefCounted<Foo>::object_counter_);
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
     p1 = &(*p1);
     EXPECT_EQ(size_t(1), p1->ref_count_);

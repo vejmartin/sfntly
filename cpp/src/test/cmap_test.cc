@@ -33,8 +33,6 @@
 #include "test/test_font_utils.h"
 #include "test/test_data.h"
 
-#if GTEST_HAS_PARAM_TEST
-
 namespace sfntly {
 using ::testing::TestWithParam;
 using ::testing::Values;
@@ -201,13 +199,7 @@ CMapTestCase kCMapTestsTestCases[] = {
                (int32_t)0x7f),
 };
 
-INSTANTIATE_TEST_CASE_P(CMapTests,
+INSTANTIATE_TEST_SUITE_P(CMapTests,
                         CMapTests,
                         ::testing::ValuesIn(kCMapTestsTestCases));
 }
-
-#else
-
-TEST(DummyTest, ValueParameterizedTestsAreNotSupportedOnThisPlatform) {}
-
-#endif  // GTEST_HAS_PARAM

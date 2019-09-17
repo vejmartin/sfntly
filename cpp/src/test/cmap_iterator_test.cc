@@ -31,8 +31,6 @@
 
 #include "gtest/gtest.h"
 
-#if GTEST_HAS_PARAM_TEST
-
 namespace sfntly {
 using ::testing::TestWithParam;
 using ::testing::Values;
@@ -144,13 +142,7 @@ CMapIteratorTestCase kCMapIteratorTestsTestCases[] = {
                        SAMPLE_TTF_FILE)
 };
 
-INSTANTIATE_TEST_CASE_P(CMapIteratorTests,
+INSTANTIATE_TEST_SUITE_P(CMapIteratorTests,
                         CMapIteratorTests,
                         ::testing::ValuesIn(kCMapIteratorTestsTestCases));
 }
-
-#else
-
-TEST(DummyTest, ValueParameterizedTestsAreNotSupportedOnThisPlatform) {}
-
-#endif  // GTEST_HAS_PARAM

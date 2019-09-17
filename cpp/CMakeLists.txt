@@ -3,10 +3,13 @@
 cmake_minimum_required(VERSION 2.6.2)
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "good configs" FORCE)
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+set(CMAKE_CXX_STANDARD 11)
 
 project(sfntly)
 
-set(GCC_OR_CLANG ((CMAKE_CXX_COMPILER_ID MATCHES "Clang") OR CMAKE_COMPILER_IS_GNUCXX))
+if((CMAKE_CXX_COMPILER_ID MATCHES "Clang") OR CMAKE_COMPILER_IS_GNUCXX)
+  set(GCC_OR_CLANG TRUE)
+endif()
 
 # For gcc, make the default be debug build and valgrind friendly.
 if(GCC_OR_CLANG)
@@ -18,7 +21,12 @@ endif(GCC_OR_CLANG)
 
   set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib)
   set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ext/gtest/include ext/gtest
+
+if(NOT TARGET gtest)
+  add_subdirectory(ext/googletest)
+endif()
+
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sample ${CMAKE_CURRENT_SOURCE_DIR}/src/sample/subtly)
 
 # The following simulates Chrome compilation flags
@@ -34,13 +42,15 @@ endif(GCC_OR_CLANG)
   add_definitions(-DSFNTLY_EXPERIMENTAL)
 
 # VC specific flags
-if(MSVC10 OR MSVC90)
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zi /nologo /W4 /WX /O2 /Ob2 /Oy /GF /Gm- /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /GR-")
-  set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Zi /nologo /W4 /WX /Od /Oy- /RTC1 /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /GR-")
-  add_definitions(-D_UNICODE -DUNICODE)
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ext/icu/include)
-  link_directories(${CMAKE_CURRENT_SOURCE_DIR}/ext/icu/lib)
-endif(MSVC10 OR MSVC90)
+if(MSVC)
+  add_definitions(-D_UNICODE -DUNICODE -DNOMINMAX)
+elseif(APPLE)
+  # Homebrew icu4c
+  list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/icu4c")
+endif()
+
+  find_package(ICU 61 COMPONENTS uc REQUIRED)
+  include_directories(${ICU_INCLUDE_DIR})
 
   file(GLOB SFNTLY_CORE_FILES src/sfntly/*.h src/sfntly/*.cc)
   file(GLOB SFNTLY_PORT_FILES src/sfntly/port/*.h src/sfntly/port/*.cc)
@@ -70,7 +80,7 @@ endif(MSVC10 OR MSVC90)
   file(GLOB_RECURSE SIMPLE_SUBSETTER src/sample/subsetter/*.h src/sample/subsetter/*.cc
                                      src/sfntly/tools/*.h src/sfntly/tools/*.cc)
   add_executable(subsetter ${SIMPLE_SUBSETTER})
-  target_link_libraries(subsetter sfntly icuuc)
+  target_link_libraries(subsetter sfntly ICU::uc)
 if(GCC_OR_CLANG)
   target_link_libraries(subsetter pthread)
 endif(GCC_OR_CLANG)
@@ -83,11 +93,12 @@ endif(GCC_OR_CLANG)
     src/sample/chromium/subsetter_impl.cc
     src/sample/chromium/font_subsetter.cc
     src/sample/chromium/font_subsetter.h)
+
+  include_directories("${gtest_SOURCE_DIR}/include")
+
   add_executable(unit_test
-    ${TEST_CASES} ${CHROME_SUBSETTER_LIB}
-    ext/gtest/src/gtest-all.cc
-    ext/gtest/src/gtest_main.cc)
-  target_link_libraries(unit_test sfntly icuuc tinyxml)
+    ${TEST_CASES} ${CHROME_SUBSETTER_LIB})
+  target_link_libraries(unit_test sfntly ICU::uc tinyxml gtest_main)
 if(GCC_OR_CLANG)
   target_link_libraries(unit_test pthread)
 endif(GCC_OR_CLANG)
@@ -99,19 +110,19 @@ endif(GCC_OR_CLANG)
     ${SUBTLY_FILES})
   add_executable(subtly_subsetter
     src/sample/subtly/subsetter_main.cc)
-  target_link_libraries(subtly_subsetter subtly sfntly icuuc)
+  target_link_libraries(subtly_subsetter subtly sfntly ICU::uc)
 if(GCC_OR_CLANG)
   target_link_libraries(subtly_subsetter pthread)
 endif(GCC_OR_CLANG)
   add_executable(subtly_merger
     src/sample/subtly/merger_main.cc)
-  target_link_libraries(subtly_merger subtly sfntly icuuc)
+  target_link_libraries(subtly_merger subtly sfntly ICU::uc)
 if(GCC_OR_CLANG)
   target_link_libraries(subtly_merger pthread)
 endif(GCC_OR_CLANG)
   add_executable(subtly_debug
     src/sample/subtly/debug_main.cc)
-  target_link_libraries(subtly_debug subtly sfntly icuuc)
+  target_link_libraries(subtly_debug subtly sfntly ICU::uc)
 if(GCC_OR_CLANG)
   target_link_libraries(subtly_debug pthread)
 endif(GCC_OR_CLANG)
@@ -119,7 +130,7 @@ endif(GCC_OR_CLANG)
      ${CHROME_SUBSETTER_LIB}
      src/sample/chromium/chrome_subsetter.cc
    )
-   target_link_libraries(chrome_subsetter sfntly icuuc)
+   target_link_libraries(chrome_subsetter sfntly ICU::uc)
  if(GCC_OR_CLANG)
    target_link_libraries(chrome_subsetter pthread)
  endif(GCC_OR_CLANG)
